@@ -100,6 +100,8 @@ a {
 /* result */
 .bot .bot-result {
     overflow: auto;
+    display: flex; 
+    flex-direction: column-reverse;
     background: white;
     position: fixed;
     top: 80px;

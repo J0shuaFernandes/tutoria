@@ -19,6 +19,7 @@ urlpatterns = [
 	url(r'login/', views.user_login, name='login'),
 	url(r'logout/', views.user_logout, name='logout'),
 	path(r'chat/<str:username>', views.chat, name='chat'),
+	#path(r'chat/<str:username>', views.save_msg, name='save_msg'),
 	path(r'profile/<str:username>', views.profile, name='profile'),
 	url(r'edit_profile/', views.edit_profile, name='edit_profile'),
 	url(r'search/', views.search, name='search'),

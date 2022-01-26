@@ -1,3 +1,4 @@
+from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Tutorial, TutorialSeries, Message, Profile, Comment, Like
@@ -9,9 +10,10 @@ from django.contrib import messages
 from django.urls import reverse, reverse_lazy
 from .forms import NewUserForm
 
+from io import StringIO
 from datetime import datetime
 from random import randint
-import smtplib
+import smtplib, pickle, io
 
 def homepage(request):
 	return render(request, 
@@ -78,6 +80,16 @@ def chat(request, username):
 					context={"messages":messages, "remote_user":remote_user})
 	else:
 		return render(request, 'not_found.html')
+
+def save_msg(request, username):
+	if User.objects.get(username=username):
+		remote_user = User.objects.get(username=username)
+		local_user = request.user
+
+		if request.method == 'POST':
+			m = Message(sender_id=local_user.id, receiver_id=remote_user.id,
+					content=request.POST.get('msg'), timestamp=datetime.now())	
+			m.save()
 
 def search(request):
 	query = request.GET.get('q')
