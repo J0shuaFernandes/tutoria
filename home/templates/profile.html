@@ -1,0 +1,68 @@
+{% extends 'header.html' %}
+{% block content %}
+
+<div class="row">
+  <div class="col"><img style="border-radius:100%" src="/static/default.png"></div>
+  <div class="col"><h4>{{remote_user.get_username}}</h4>
+
+    {% if remote_user == user %}
+    <a href="/manage"><button type="button" class="btn btn-primary">Add/Manage Tutorials</button></a>
+    <a href="/edit_profile"><button type="button" class="btn btn-primary">Edit Profile</button></a>
+    {% else %}
+    <a href="{% url 'chat' remote_user.get_username %}"><button type="button" class="btn btn-primary">Message</button></a>
+
+    
+    {% endif %}
+  </div>
+
+</div>
+
+<br>
+<p><center>TUTORIALS ADDED BY {{remote_user.get_username}}</center></p>
+<hr>
+<div class="row">
+{% for s in series %}
+  {% if s.author == remote_user.get_username %}
+  <div class="col s6 m4 l3">
+
+    <a href="/{{s.tutorials.first.id}}">
+  
+    <div class="card blue-grey darken-1">
+      <div class="card-image">
+        <img class="responsive-img" src="/static/blank.png">
+      </div>
+      <div class="card-content">
+        <p class="card-title" style="color:white;">{{s.series}}</p>
+        <p style="color:white;">{{s.author}}  {{s.date}}</p>
+        <p style="color:white;">{{s.description}}</p>
+      </div>
+    </div>
+
+    </a>
+  </div>
+  {%endif%}
+{% endfor %}
+</div>
+
+{% endblock %}
+
+ <div class="container">
+   <div class="carousel carousel-slider">
+    <div class="carousel-item row">
+
+      <div class="col s3">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">Card Title</span>
+          <p>I am a very simple card. I am good at containing small bits of information.
+          I am convenient because I require little markup to use effectively.</p>
+        </div>
+        <div class="card-action">
+          <a href="#">This is a link</a>
+          <a href="#">This is a link</a>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+ </div>

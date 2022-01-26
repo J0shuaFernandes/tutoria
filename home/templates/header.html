@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>tutoria</title>
+	{% load static %}
+	<link href="{% static 'tinymce/css/prism.css' %}" rel="stylesheet">
+  <link href="{% static 'styles.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.carousel-slider');
+    var instances = M.Carousel.init(elems);
+  });
+  </script>
+</head>
+
+<body>
+	<nav>
+    <div class="nav-wrapper blue-grey darken-1">
+      <a href="/" class="brand-logo" style="padding-left:10px;">tutoria</a>
+      
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+            
+        <li>
+          <form method="get" id="searchform" style="" action="/search"> 
+            <input name="q" id="search" type="search" placeholder="Search" style="font-size:16px;color:white;" autocomplete="off">
+          </form>
+        </li>
+      
+        <li><a href="/">Home</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' user.username %}" >{{user.username}}</a></li>
+          <li><a href="/logout">Logout</a></li>        
+        {% else %}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Sign Up</a></li>        
+        {% endif %}
+      </ul>
+    </div>
+	</nav>
+
+  {% if messages %}
+    {% for message in messages %}
+      <script>M.toast({html:"{{message}}"});</script>
+    {% endfor %}
+  {% endif %}
+   
+  <div class="container">
+    <br>
+    {% block content %}
+    {% endblock %}
+  </div>
+
+  <!-- 
+  <footer class="page-footer blue-grey darken-1" style="position:fixed;">
+    <div class="container">
+      <div class="row">
+        <div class="col s12 16">
+          <p>About Us | Contact | Terms and Conditions | Privacy Policy</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  -->
+
+	<script src="{% static 'tinymce/js/prism.js' %}"></script>
+</body>
+
+<script>M.AutoInit()</script>
+
+</html>

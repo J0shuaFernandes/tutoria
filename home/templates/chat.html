@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+    <title>{{user.username}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static 'chat.css' %}">
+</head>
+
+<body>
+    <div class="bot">
+    <div class="bot-header">
+        <div class="bot-header-icon"><img src="{% static 'alex.png' %}"></div>
+        <div class="bot-header-wrapper">
+        <div class="bot-header-agent-name" style="color:#ffffff">
+            <a href="{% url 'profile' remote_user.username %}" style="text-decoration:none;color:white;">{{remote_user.username}}</a></div>
+        </div>
+    </div>
+    
+    <div class="bot-result" id="resultWrapper">
+
+        <table class="bot-result-table">
+        <tbody>
+        <tr>
+        <td id="result">
+            {% for message in messages %}
+                {% if message.sender_id == user.id %}
+                    <div class="user-msg">{{message.content}}</div>
+                {% else %}
+                    <div class="server-msg">{{message.content}}</div>
+                {%endif%}
+            {%endfor%}
+        </td>
+        </tr>
+        </tbody>
+        </table>
+    
+    </div>
+
+    <div class="bot-input" >
+        <form action="" method="POST" action="{% url 'chat' remote_user.username %}">
+            {% csrf_token %}
+            <input type="text" autocomplete="off" id="query" name="msg" placeholder="Say something..."/>
+        </form>
+    </div>
+
+    </div>
+
+</body>
+</html>
