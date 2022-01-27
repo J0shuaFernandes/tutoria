@@ -78,10 +78,12 @@ def chat(request, username):
 		messages = local_remote.union(remote_local)		
 		messages.order_by('id')
 
+		"""
 		if request.method == 'POST':
 			m = Message(sender_id=local_user.id, receiver_id=remote_user.id, content=request.POST.get('msg'), timestamp=datetime.now())	
 			m.save()
-	
+		"""
+
 		return render(request, 'chat.html', 
 					context={"messages":messages, "remote_user":remote_user})
 	else:
@@ -91,11 +93,12 @@ def save_msg(request, username):
 	if User.objects.get(username=username):
 		remote_user = User.objects.get(username=username)
 		local_user = request.user
-
+		print('*'*10)
 		if request.method == 'POST':
 			m = Message(sender_id=local_user.id, receiver_id=remote_user.id,
 					content=request.POST.get('msg'), timestamp=datetime.now())	
 			m.save()
+		return HttpResponseRedirect(reverse('chat', args=[str(username)]))
 
 def search(request):
 	query = request.GET.get('q')

@@ -5,20 +5,26 @@
     <title>{{user.username}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="{% static 'chat.css' %}">
+
 </head>
 
 <body>
 
-
+    <a href="{% url 'chat' remote_user.username %}" id="redirect"></a>
     <div class="bot">
     <div class="bot-header">
         <div class="bot-header-icon"><img src="{% static 'alex.png' %}"></div>
         <div class="bot-header-wrapper">
         <div class="bot-header-agent-name" style="color:#ffffff">
-            <a href="{% url 'profile' remote_user.username %}" style="text-decoration:none;color:white;">{{remote_user.username}}</a></div>
+            <a href="{% url 'profile' remote_user.username %}" id="profile" style="text-decoration:none;color:white;">{{remote_user.username}}</a></div>
         </div>
     </div>
     
+    <script type="text/javascript">
+     
+        //location.replace("https://www.w3schools.com")
+    </script>
+
     <div class="bot-result" id="resultWrapper">
 
         <table class="bot-result-table">
@@ -40,7 +46,7 @@
     </div>
 
     <div class="bot-input" >
-        <form action="" method="POST" action="{% url 'chat' remote_user.username %}">
+        <form method="POST" action="{% url 'save_msg' remote_user.username %}">
             {% csrf_token %}
             <input type="text" autocomplete="off" id="query" name="msg" placeholder="Say something..."/>
         </form>
