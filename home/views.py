@@ -13,7 +13,9 @@ from .forms import NewUserForm
 from io import StringIO
 from datetime import datetime
 from random import randint
-import smtplib, pickle, io
+import smtplib
+
+gets = []
 
 def homepage(request):
 	return render(request, 
@@ -63,6 +65,9 @@ def like(request, pk):
 	return HttpResponseRedirect(reverse('tutorial', args=[str(pk)]))
 
 def chat(request, username):
+	if request.method == 'GET':
+		gets.append(request)
+
 	if User.objects.get(username=username):
 		remote_user = User.objects.get(username=username)
 		local_user = request.user
@@ -76,6 +81,8 @@ def chat(request, username):
 		if request.method == 'POST':
 			m = Message(sender_id=local_user.id, receiver_id=remote_user.id, content=request.POST.get('msg'), timestamp=datetime.now())	
 			m.save()
+
+		request = gets[0]	
 		return render(request, 'chat.html', 
 					context={"messages":messages, "remote_user":remote_user})
 	else:
