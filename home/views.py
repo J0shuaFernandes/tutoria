@@ -81,8 +81,7 @@ def chat(request, username):
 		if request.method == 'POST':
 			m = Message(sender_id=local_user.id, receiver_id=remote_user.id, content=request.POST.get('msg'), timestamp=datetime.now())	
 			m.save()
-
-		request = gets[0]	
+	
 		return render(request, 'chat.html', 
 					context={"messages":messages, "remote_user":remote_user})
 	else:
